@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>💞 Read Me By 💞 </title>
+    <link rel="stylesheet" href="body.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap" rel="stylesheet">
+</head>
+  <body>
+    <div class="content">
+      <img src="" alt="" />
+      <div class="text">
+        <p id="p1">
+          💞 Happy Birthday My Baby 💞
+          <br />
+        </p>
+        <p id="p2">
+          Happiest birthday byyy 💕 I'm writing this with your back turned away from me (kay sakit imo likod 🥹😭) with 
+          audio from your reels playing in the background. Who else could be happier than I am right now 🥹
+          In the process of making this project, I got to re-live the past 8 months with you again. 
+          To find someone as kind, as thoughtful, as intelligent, as creative, as bright, and as headstrong, 
+          how could an Ally in any universe be so fortunate? I might just be the luckiest one. 
+
+          <br /> <br/>
+          Eight months in and I'm way more scared than I was when we first started 🥹 but I think that's just a symptom of 
+          how happy you've made me and of how much I don't want to do anything to lose that. Being far away from you hasn't always been 
+          easy, especially when motukar akong ka luoran 😭. We're both privy to the days when fights would be easier to resolve 
+          if we were nearer, when my brain chooses to go against my every will to be happy, when the days are just off, 
+          or when we just want to lie down and do nothing beside each other. Pero as lisod as all that may be,  
+          much like Francesca with her Paolo, I would go through all of it again to have even a minute to spend with you. 
+          Thank you for always seeing the diamond necklace side of me, even when it can sometimes be difficult.
+          Uncle Henry asked where we wretcheds would be without the generosity of our betters. Thank you for coming
+          into my life when you did, for the generosity of being the Evelyn to my Celia, the Dani to my Jamie, 
+          the Ronah to my Ally. I don't know where I'd be without it. 
+
+          <br/> <br/>
+          Have so much fun sa imo birthday because you deserve nothing less. I really really can't wait to see you 🥹
+          Happy birthday babyyy 💕 
+          <br/> <br/>
+          I love youuu 💓
+          
+        </p>
+        
+
+      </div>
+    </div>
+ 
+  <h3>move the mouse around to see the message hehe</h3>
+
+    <div>
+      <a href="index.html">
+        <button id="back"> BACK </button>
+      </a>
+
+      <!--<a href="#">
+        <button id="next"> NEXT </button>
+      </a>-->
+      
+    </div>
+   
+
+      
+   
+    
+    
+    <canvas></canvas>
+
+    <script type="x-shader/x-fragment" id="vertShader">
+      precision highp float;
+
+        attribute vec2 aPosition;
+        varying vec2 vUv;
+        varying vec2 vL;
+        varying vec2 vR;
+        varying vec2 vT;
+        varying vec2 vB;
+        uniform vec2 u_vertex_texel;
+
+        void main () {
+            vUv = aPosition * .5 + .5;
+            vL = vUv - vec2(u_vertex_texel.x, 0.);
+            vR = vUv + vec2(u_vertex_texel.x, 0.);
+            vT = vUv + vec2(0., u_vertex_texel.y);
+            vB = vUv - vec2(0., u_vertex_texel.y);
+            gl_Position = vec4(aPosition, 0., 1.);
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragShaderAdvection">
+      precision highp float;
+        precision highp sampler2D;
+
+        varying vec2 vUv;
+        uniform sampler2D u_velocity_txr;
+        uniform sampler2D u_input_txr;
+        uniform vec2 u_vertex_texel;
+        uniform vec2 u_output_textel;
+        uniform float u_dt;
+        uniform float u_dissipation;
+
+        vec4 bilerp (sampler2D sam, vec2 uv, vec2 tsize) {
+            vec2 st = uv / tsize - 0.5;
+
+            vec2 iuv = floor(st);
+            vec2 fuv = fract(st);
+
+            vec4 a = texture2D(sam, (iuv + vec2(0.5, 0.5)) * tsize);
+            vec4 b = texture2D(sam, (iuv + vec2(1.5, 0.5)) * tsize);
+            vec4 c = texture2D(sam, (iuv + vec2(0.5, 1.5)) * tsize);
+            vec4 d = texture2D(sam, (iuv + vec2(1.5, 1.5)) * tsize);
+
+            return mix(mix(a, b, fuv.x), mix(c, d, fuv.x), fuv.y);
+        }
+
+        void main () {
+            vec2 coord = vUv - u_dt * bilerp(u_velocity_txr, vUv, u_vertex_texel).xy * u_vertex_texel;
+            gl_FragColor = u_dissipation * bilerp(u_input_txr, coord, u_output_textel);
+            gl_FragColor.a = 1.;
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragShaderDivergence">
+      precision highp float;
+        precision highp sampler2D;
+
+        varying highp vec2 vUv;
+        varying highp vec2 vL;
+        varying highp vec2 vR;
+        varying highp vec2 vT;
+        varying highp vec2 vB;
+        uniform sampler2D u_velocity_txr;
+
+        void main () {
+            float L = texture2D(u_velocity_txr, vL).x;
+            float R = texture2D(u_velocity_txr, vR).x;
+            float T = texture2D(u_velocity_txr, vT).y;
+            float B = texture2D(u_velocity_txr, vB).y;
+
+            float div = .5 * (R - L + T - B);
+            gl_FragColor = vec4(div, 0., 0., 1.);
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragShaderPressure">
+      precision highp float;
+        precision highp sampler2D;
+
+        varying highp vec2 vUv;
+        varying highp vec2 vL;
+        varying highp vec2 vR;
+        varying highp vec2 vT;
+        varying highp vec2 vB;
+        uniform sampler2D u_pressure_txr;
+        uniform sampler2D u_divergence_txr;
+
+        void main () {
+            float L = texture2D(u_pressure_txr, vL).x;
+            float R = texture2D(u_pressure_txr, vR).x;
+            float T = texture2D(u_pressure_txr, vT).x;
+            float B = texture2D(u_pressure_txr, vB).x;
+            float C = texture2D(u_pressure_txr, vUv).x;
+            float divergence = texture2D(u_divergence_txr, vUv).x;
+            float pressure = (L + R + B + T - divergence) * 0.25;
+            gl_FragColor = vec4(pressure, 0., 0., 1.);
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragShaderGradientSubtract">
+      precision highp float;
+        precision highp sampler2D;
+
+        varying highp vec2 vUv;
+        varying highp vec2 vL;
+        varying highp vec2 vR;
+        varying highp vec2 vT;
+        varying highp vec2 vB;
+        uniform sampler2D u_pressure_txr;
+        uniform sampler2D u_velocity_txr;
+
+        void main () {
+            float L = texture2D(u_pressure_txr, vL).x;
+            float R = texture2D(u_pressure_txr, vR).x;
+            float T = texture2D(u_pressure_txr, vT).x;
+            float B = texture2D(u_pressure_txr, vB).x;
+            vec2 velocity = texture2D(u_velocity_txr, vUv).xy;
+            velocity.xy -= vec2(R - L, T - B);
+            gl_FragColor = vec4(velocity, 0., 1.);
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragShaderPoint">
+      precision highp float;
+        precision highp sampler2D;
+
+        varying vec2 vUv;
+        uniform sampler2D u_input_txr;
+        uniform float u_ratio;
+        uniform vec3 u_point_value;
+        uniform vec2 u_point;
+        uniform float u_point_size;
+
+        void main () {
+            vec2 p = vUv - u_point.xy;
+            p.x *= u_ratio;
+            vec3 splat = pow(2., -dot(p, p) / u_point_size) * u_point_value;
+            vec3 base = texture2D(u_input_txr, vUv).xyz;
+            gl_FragColor = vec4(base + splat, 1.);
+        }
+    </script>
+
+    <script type="x-shader/x-fragment" id="fragShaderDisplay">
+      precision highp float;
+        precision highp sampler2D;
+
+        varying vec2 vUv;
+        uniform sampler2D u_output_texture;
+
+        void main () {
+            vec3 C = texture2D(u_output_texture, vUv).rgb;
+            float a = max(C.r, max(C.g, C.b));
+            a = pow(.1 * a, .1);
+            a = clamp(a, 0., 1.);
+            gl_FragColor = vec4(1. - C, 1. - a);
+        }
+    </script>
+    <script src="body.js"></script>
+  </body>
+</html>

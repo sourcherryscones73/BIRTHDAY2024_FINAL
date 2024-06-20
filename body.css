@@ -1,0 +1,146 @@
+
+html,
+body {
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  background-color: #ff7070ef;
+
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+}
+
+@media (max-aspect-ratio: 3/5) {
+  p {
+    left: 30%;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 50%;
+  left: 30%;
+  max-width: 50%;
+  transform: translate(-50%, -50%);
+  font-family: Mochiy Pop P One;
+  font-size: 10vh;
+  font-weight: bold;
+  pointer-events: none;
+  p-transform: uppercase;
+}
+
+@media (max-aspect-ratio: 1/1) {
+  .overlay {
+    left: 50%;
+    width: 90%;
+    max-width: 90%;
+  }
+}
+
+@media (max-aspect-ratio: 3/5) {
+  .overlay {
+    font-size: 5vh;
+  }
+}
+
+.text {
+  font-size: 100%;
+  margin-bottom: 20%;
+  width: 90%;
+  height: 80%;
+  justify-content: center;
+  color: whitesmoke;
+  margin-left: 5%;
+  font-family: Mochiy Pop P One;
+  font-weight: 100;
+}
+
+.text #p1 {
+  position:relative
+  align-content: center;
+  justify-content: center;
+  font-size: 250%;
+}
+
+.text #p2{
+  font-size: 90%;
+}
+h3 {
+  position: relative;
+  top: 527px;
+  left: 85px;
+  z-index: 8;
+  left: 35%;
+  bottom: 0%;
+  font: Mochiy Pop P One;
+}
+
+
+#back {
+  position:absolute;
+  z-index:18;
+  top: 527px;
+  left: 85px;
+  border-radius: 5px;
+  background-color: #faa3a3;
+  font-family: "Mochiy Pop P One";
+}
+
+
+#back:hover{
+  font-size: 1.1 em;
+  animation: .8s beat2 infinite;
+  background-color: grey;
+  animation: colorChange 4s infinite;
+}
+
+
+#p1:hover{
+  font-size: 1.1 em;
+  animation: .8s beat2 infinite;
+}
+
+@keyframes beat2 {
+  0%, 40%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25%, 60% {
+    transform: scale(1.1) rotate(-0deg);
+  }
+}
+
+@keyframes colorChange{
+  0%{background-color: hsl(0, 100%, 62%)}
+  0% {box-shadow: 0px 0px 50px hsl(0, 100%, 62%)}
+  20%{background-color: hsl(35,100%,62%)}
+  20%{box-shadow: 0px 0px 50px  hsl(35,100%,62%)}
+  40%{background-color: hsl(63,100%,62%)}
+  40%{box-shadow: 0px 0px 50px hsl(63,100%,62%)}
+  60%{background-color: hsl(103,100%,62%)}
+  60%{box-shadow: 0px 0px 50px hsl(103,100%,62%)}
+  80%{background-color: hsl(201,100%,62%)}
+  80%{box-shadow: 0px 0px 50px hsl(201,100%,62%)}
+  100%{background-color: hsl(268,100%,62%)}
+  100%{box-shadow: 0px 0px 50px hsl(268,100%,62%)}
+  
+  0%, 40%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25%, 60% {
+    transform: scale(1.1) rotate(-0deg);
+  }
+}

@@ -1,0 +1,348 @@
+<style>
+
+body {
+  height: 500vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position:relative;
+  background-color: #f2acac;
+  font-family: "Mochiy Pop P One";
+  
+}
+
+
+.six{
+  position: absolute;
+  top: 50px;
+  left: 40px;
+  animation: dance2 4s infinite;
+ 
+}
+
+.seven{
+  position: absolute;
+  top: 280px;
+  left: 140px;
+  animation: slideLeft 2.5s infinite;
+}
+
+.eight{
+  position: absolute;
+  top: 50px;
+  right: 60px;
+  animation: dance3 4s infinite;
+}
+
+.nine{
+  position: absolute;
+  top: 280px;
+  right: 230px;
+  animation: slideRight 2.5s infinite;
+}
+
+@keyframes colorChange{
+  0%{background-color: hsl(0, 100%, 62%)}
+  0% {box-shadow: 0px 0px 50px hsl(0, 100%, 62%)}
+  20%{background-color: hsl(35,100%,62%)}
+  20%{box-shadow: 0px 0px 50px  hsl(35,100%,62%)}
+  40%{background-color: hsl(63,100%,62%)}
+  40%{box-shadow: 0px 0px 50px hsl(63,100%,62%)}
+  60%{background-color: hsl(103,100%,62%)}
+  60%{box-shadow: 0px 0px 50px hsl(103,100%,62%)}
+  80%{background-color: hsl(201,100%,62%)}
+  80%{box-shadow: 0px 0px 50px hsl(201,100%,62%)}
+  100%{background-color: hsl(268,100%,62%)}
+  100%{box-shadow: 0px 0px 50px hsl(268,100%,62%)}
+  
+}
+
+
+@keyframes dance3{
+  0%, 40%, 100% {
+    transform:  rotate(-15deg);
+  }
+  25%, 60% {
+    transform: rotate(15deg);
+  }
+}
+@keyframes dance2{
+  0%, 40%, 100% {
+    transform:  rotate(15deg);
+  }
+  25%, 60% {
+    transform: rotate(-15deg);
+  }
+}
+
+@keyframes slideLeft{
+    0% {left: 0;}
+    50% {left: 10%;}
+    100% {left: 0;}
+}
+
+@keyframes slideRight{
+  0% {right: 0;}
+  50% {right: 15%;}
+  100% {right: 0;}
+}
+
+input#open {
+  display: none;
+  
+}
+
+.valentines-day-card {
+  position: relative;
+  top: 100px;
+  right: -450px;
+  width: 300px;
+  height: 380px;
+  transform-style: preserve-3d;
+  transform: perspective(2500px);
+  transition: .3s;
+  z-index: 100
+}
+
+.card-front {
+  position: relative;
+  background-color: #fff0f3;
+  width: 400px;
+  height:400px;
+  transform-origin: left;
+  box-shadow: inset 100px 20px 100px rgba(0,0,0,.15), 30px 0 50px rgba(0,0,0,0.3);
+  transition: .3s;
+}
+
+.card-front:before {
+  content:"";
+
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  background-color: #d04e4e;
+  top: 10px;
+  left: 10px;
+  
+}
+
+.card-inside {
+  position: absolute;
+  background-color: #fff0f3;
+  width: 400px;
+  height:400px;
+  z-index:-1;
+  left:0;
+  top:0;
+  box-shadow: inset 100px 20px 100px rgba(0,0,0,0.22), 100px 20px 100px rgba(0,0,0,0.1);
+}
+
+.open {
+  position: absolute;
+  width: 380px;
+  height:380px;
+  left:0;
+  top:0;
+  background-color: transparent;
+  z-index:6;
+  cursor: pointer;
+}
+
+#open:checked ~ .card-front {
+  transform: rotateY(-155deg);
+  box-shadow: inset 100px 20px 100px rgba(0,0,0,.13), 30px 0 50px rgba(0,0,0,0.1);
+}
+
+#open:checked ~ .card-front:before {
+  z-index:5;
+  background-color: #fff0f3;
+  width:400px;
+  height:400px;
+  top:0;
+  left:0;
+  box-shadow: inset 100px 20px 100px rgba(0,0,0,.1), 30px 0 50px rgba(0,0,0,0.1);
+}
+
+.note {
+  position: relative;
+  width: 300px;
+  height: 250px;
+  background-color: #fff0f3;
+  top: 85px;
+  left:50px;
+  color: #333;
+  font-family: "Mochiy Pop P One", Arial, Helvetica;
+  font-size:30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  filter: drop-shadow(0 0 20px rgba(0,0,0,0.3));
+}
+
+.note:before, .note:after {
+  position: absolute;
+  content:"";
+  background-color: #ba1c1c;
+  width: 40px;
+  height:40px;
+}
+
+.note:before {
+  transform: rotate(-45deg);
+  top:-14px;
+  left: 133px;
+}
+
+.note:after {
+  border-radius:50%;
+  top:-29px;
+  left:118px;
+  box-shadow:30px 0 #ba1c1c;
+}
+
+
+.text-one {
+  position: absolute;
+  color: #333;
+  font-family: "Mochiy Pop P One", Arial, Helvetica;
+  font-size: 30px;
+  top: 70px;
+  right: 60px;
+  width:300px;
+  text-align: center;
+}
+
+.text-one:before, .text-one:after {
+  position: absolute;
+  left:5px;
+  text-align: center;
+  width:300px;
+}
+
+.text-one:before {
+  content:"Birthday";
+  top:30px;
+  color: #d04e4e;
+}
+
+.text-one:after {
+  content:"Baby!";
+  top:60px;
+}
+
+.heart {
+  position: relative;
+  background-color: #d04e4e;
+  height: 60px;
+  width:60px;
+  top:230px;
+  left:160px;
+  transform: rotate(-45deg);
+  animation: .8s beat infinite;
+}
+  
+.heart:before, .heart:after {
+  content:"";
+  background-color: #d04e4e;
+  border-radius:50%;
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  }
+  
+.heart:before {
+  top:-30px;
+  left:0;
+}
+  
+.heart:after {
+  left:30px;
+  top:0;
+}
+
+.smile {
+  position: absolute;
+  width:30px;
+  height:15px;
+  background-color: #333;
+  z-index:1;
+  border-radius: 0 0 100px 100px;
+  top:250px;
+  left:175px;
+  overflow: hidden;
+}
+
+.smile:before {
+  content:"";
+  position: absolute;
+  border-radius:50%;
+  width:20px;
+  height:20px;
+  background-color: #030202;
+  top:5px;
+  left:5px;
+}
+
+.eyes {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #333;
+  width:10px;
+  height:10px;
+  z-index:1;
+  top:235px;
+  left:205px;
+  box-shadow: -40px 0 #333;
+  transform-origin: 50%;
+  animation: close 2s infinite;
+}
+
+#button{
+  position:relative;
+  top: 380px;
+  left: 129px;
+  border-radius: 5px;
+  background-color: #faa3a3;
+  font-family: "Mochiy Pop P One";
+}
+
+#button:hover{
+  font-size: 1.1 em;
+  animation: .8s beat2 infinite;
+  background-color: grey;
+  animation: glow 4s infinite;
+  animation: colorChange 4s infinite;
+}
+
+
+@keyframes close {
+    0%, 100% {
+        transform: scale(1, .05);
+    }
+    5%, 95% {
+        transform: scale(1, 1);
+    }
+}
+
+@keyframes beat {
+  0%, 40%, 100% {
+    transform: scale(1) rotate(-45deg);
+  }
+  25%, 60% {
+    transform: scale(1.1) rotate(-45deg);
+  }
+}
+
+@keyframes beat2 {
+  0%, 40%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25%, 60% {
+    transform: scale(1.1) rotate(-0deg);
+  }
+}
+
+
+
+</style>
